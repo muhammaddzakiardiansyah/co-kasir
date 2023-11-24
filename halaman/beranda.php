@@ -4,8 +4,9 @@
 
     <div class="d-flex mb-4">
         <input class="form-control mx-sm-2 my-2 w-auto" type="text" name="pelanggan" placeholder="Nama Pelanggan" required autocomplete="off">
+        <input class="form-control mx-sm-2 my-2 w-auto" type="text" name="nama_kasir" placeholder="Nama Kasir" required autocomplete="off">
 
-        <button class="btn btn-primary my-2 mx-2" name="pesan">Pesan</button>
+        <button class="btn btn-primary my-2 mx-2" name="pesan">Pembayaran</button>
 
     </div>
 
@@ -16,6 +17,8 @@
         <?php
 
         $i = 1;
+
+        $formatter = new NumberFormatter('id_ID', NumberFormatter::CURRENCY);
 
         foreach ($menu as $m) { ?>
 
@@ -31,7 +34,7 @@
 
                         <h5 class="card-title"><?= $m["nama"]; ?></h5>
 
-                        <p class="card-text">Harga : Rp<?= $m["harga"]; ?></p>
+                        <p class="card-text">Harga : <?= $formatter->formatCurrency($m["harga"], 'IDR'); ?></p>
 
                         <p class="card-text">Jumlah beli / pcs : <input class="form-control" min="0" type="number" name="qty<?= $i; ?>"></p>
 
@@ -43,6 +46,7 @@
 
         <?php $i++;
         } ?>
+    
 
 </form>
 

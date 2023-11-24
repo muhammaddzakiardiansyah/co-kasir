@@ -153,7 +153,37 @@ function ambil_data($query)
     return $db;
 }
 
+// tambah data transaksi
 
+function tambah_data_transaksi() {
+
+    global $koneksi;
+
+    $kode_pesanan = htmlspecialchars($_POST["kode_pesanan"]);
+
+    $nama_pelanggan = htmlspecialchars($_POST["nama_pelanggan"]);
+
+    $nama_kasir = htmlspecialchars($_POST["nama_kasir"]);
+
+    $tanggal_transaksi = htmlspecialchars($_POST["tanggal_transaksi"]);
+
+    $total_belanja = (int) htmlspecialchars($_POST["total_belanja"]);
+
+    $uang_bayar = (int) htmlspecialchars($_POST["uang_bayar"]);
+
+    $uang_kembalian = (int) htmlspecialchars($_POST["uang_kembalian"]);
+
+    $id_menu = ambil_data("SELECT MAX(SUBSTR(kode_menu, 3)) AS kode FROM menu")[0]["kode"] + 1;
+
+    mysqli_query($koneksi, "INSERT INTO data_transaksi
+
+                            VALUES ('', '$kode_pesanan', '$nama_pelanggan', '$nama_kasir', '$tanggal_transaksi', $total_belanja, $uang_bayar, $uang_kembalian)
+
+    ");
+
+    return mysqli_affected_rows($koneksi);
+
+}
 
 // Function Tambah Data
 
@@ -364,6 +394,8 @@ function tambah_data_pesanan()
 
     $pelanggan = htmlspecialchars($_POST["pelanggan"]);
 
+    $kasir = htmlspecialchars($_POST["nama_kasir"]);
+
     // Generate Kode Pesanan
 
     $kode_pesanan = uniqid();
@@ -420,7 +452,7 @@ function tambah_data_pesanan()
 
     mysqli_query($koneksi, "INSERT INTO transaksi
 
-                            VALUES ('', '$kode_pesanan', '$pelanggan', NOW())
+                            VALUES ('', '$kode_pesanan', '$pelanggan', '$kasir', NOW())
 
     ");
 

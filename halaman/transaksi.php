@@ -1,66 +1,99 @@
-<table class="table table-bordered table-hover" style="margin-top: 100px;">
+<?php 
 
-    <tr class="text-bg-success">
+require_once(__DIR__ . '/../function.php');
 
-        <th>No</th>
 
-        <th>Kode Pesanan</th>
+if (isset($_POST["tambah_transaksi"])) {
 
-        <th>Nama Pelanggan</th>
+    $tambah = tambah_data_transaksi();
 
-        <th>Waktu</th>
+    echo $tambah > 0
 
-        <th>Total Harga</th>
+        ? "<script>
 
-        <th>Pembayaran</th>
+            Swal.fire({
+                title: 'Transaksi Berhasil!',
+                text: 'Transaksi Berhasil Dilakukan',
+                icon: 'success'
+            });
 
-        <th>Cetak</th>
+            setTimeout(() => {
+                location.header = 'index.php'
+            }, 1500)
 
-    </tr>
-    <?php $i = 1;
-    foreach ($menu as $m) {
-        $kode_pesanan = $m["kode_pesanan"];
-        $total_pembayaran = ambil_data("SELECT DISTINCT * FROM pesanan
-    JOIN transaksi ON (pesanan.kode_pesanan = transaksi.kode_pesanan)
-    JOIN menu ON (menu.kode_menu = pesanan.kode_menu)
-    WHERE transaksi.kode_pesanan = '$kode_pesanan'");
-    ?>
+    </script>"
 
-        <form action="cetak/cetak.php" target="_blank" method="GET">
+        : "<script>
 
-            <input type="hidden" name="kode_pesanan" value="<?= $m["kode_pesanan"]; ?>">
+            Swal.fire({
+                title: 'Transaksi Gagal!',
+                text: 'Gagal',
+                icon: 'error'
+            });
 
-            <tr style="background-color: white;">
+    </script>";
 
-                <td><?= $i; ?></td>
+}
 
-                <td><?= $m["kode_pesanan"]; ?></td>
+?>
 
-                <td><?= $m["nama_pelanggan"]; ?></td>
-
-                <td><?= $m["waktu"]; ?></td>
-                <td>
-                    <?php
-                    $total = 0;
-                    foreach ($total_pembayaran as $tp) {
-                        $total += $tp["qty"] * $tp["harga"];
-                    }
-                    echo "Rp." . $total;
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Kode Pesanan</th>
+                        <th>Nama Pelanggan</th>
+                        <th>Nama Kasir</th>
+                        <th>Tanggal Transaksi</th>
+                        <th>Total Harga</th>
+                        <th>Uang Bayar</th>
+                        <th>Uang Kembalian</th>
+                        <th>Alat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 1;
+                    foreach ($menu as $m) {
+                        $kode_pesanan = $m["kode_pesanan"];
+                        $total_pembayaran = ambil_data("SELECT DISTINCT * FROM pesanan
+                                                        JOIN transaksi ON (pesanan.kode_pesanan = transaksi.kode_pesanan)
+                                                        JOIN menu ON (menu.kode_menu = pesanan.kode_menu)
+                                                        WHERE transaksi.kode_pesanan = '$kode_pesanan'");
                     ?>
-                </td>
-                <td><input name="pembayaran" min="0" type="number"></td>
-                <td>
-
-                    <button class="btn btn-primary">Cetak</button>
-
-                    <a class="btn btn-danger" href="hapus.php?kode_pesanan=<?= $m["kode_pesanan"]; ?>" onclick="return confirm('Hapus Data Transaksi?')">Hapus</a>
-
-                </td>
-
-            </tr>
-
-        </form>
-    <?php $i++;
-    } ?>
-
-</table>
+                        <form method="POST">
+                            
+                            <tr>
+                                <td><?= $i ?></td>
+                                <td><input type="text" name="kode_pesanan" value="<?= $m["kode_pesanan"]; ?>" required></td>
+                                <td><input type="text" name="nama_pelanggan" value="<?= $m["nama_pelanggan"]; ?>" required></td>
+                                <td><input type="text" name="nama_kasir" value="<?= $m["nama_kasir"]; ?>" required></td>
+                                <td><input type="text" name="tanggal_transaksi" value="<?= date("d F Y", strtotime($m["waktu"])); ?>" required></td>
+                                <td>
+                                    <?php
+                                    $total = 0;
+                                    foreach ($total_pembayaran as $tp) {
+                                        $total += $tp["qty"] * $tp["harga"];
+                                    }
+                                    ?>
+                                    <input type="text" name="total_belanja" value="<?= $total; ?>" required>
+                                </td>
+                                <td><input name="uang_bayar" placeholder="angka" min="0" type="number" required></td>
+                                <td><input type="number" min="0" placeholder="angka" name="uang_kembalian" required></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" name="tambah_transaksi"><strong>Bayar</strong></button>
+                                </td>
+                            </tr>
+                        </form>
+                    <?php $i++;
+                    } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

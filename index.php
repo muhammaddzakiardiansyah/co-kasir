@@ -11,63 +11,6 @@ if (!isset($_SESSION["akun-admin"])) {
     exit;
 }
 
-
-if (isset($_GET["transaksi"])) {
-
-    $menu = ambil_data("SELECT * FROM transaksi ORDER BY waktu DESC");
-} else if (isset($_GET["pesanan"])) {
-
-    $menu = ambil_data("SELECT p.kode_pesanan, tk.nama_pelanggan, p.kode_menu, p.qty
-
-                        FROM pesanan AS p
-
-                        JOIN transaksi AS tk ON (tk.kode_pesanan = p.kode_pesanan)
-
-                      ");
-} else {
-
-    if (!isset($_GET["search"])) {
-
-        $menu = ambil_data("SELECT * FROM menu ORDER BY kode_menu DESC");
-    } else {
-
-        $key_search = $_GET["key-search"];
-
-        $menu = ambil_data("SELECT * FROM menu WHERE nama LIKE '%$key_search%' OR
-
-                                                    harga LIKE '%$key_search%' OR
-
-                                                    kategori LIKE '%$key_search%' OR
-
-                                                    `status` LIKE '%$key_search%'
-
-                                                    ORDER BY kode_menu DESC
-
-        ");
-    }
-}
-
-
-
-if (isset($_POST["pesan"])) {
-
-    $pesanan = tambah_data_pesanan();
-
-    echo $pesanan > 0
-
-        ? "<script>
-
-            location.href = 'index.php?transaksi'
-
-    </script>"
-
-        : "<script>
-
-        alert('Pesanan Gagal Dikirim!');
-
-    </script>";
-}
-
 ?>
 
 <?php if (isset($_SESSION["akun-admin"]) && cekTimeoutSesi($_SESSION["akun-admin"]["timestamp"])) : ?>
@@ -93,12 +36,88 @@ if (isset($_POST["pesan"])) {
         <link href="src/css/sb-admin-2.min.css" rel="stylesheet">
         <script src="src/dist/sweetalert2.all.min.js"></script>
 
+        <!-- php function -->
+        <?php
+
+        if (isset($_GET["data-barang"])) {
+            $menu = ambil_data("SELECT * FROM menu");
+        } 
+        
+        if (isset($_GET["data-transaksi"])) {
+            $menu = ambil_data("SELECT * FROM data_transaksi");
+        }
+
+        if (isset($_GET["transaksi"])) {
+
+            $menu = ambil_data("SELECT * FROM transaksi ORDER BY waktu DESC LIMIT 1");
+        } else if (isset($_GET["pesanan"])) {
+
+            $menu = ambil_data("SELECT p.kode_pesanan, tk.nama_pelanggan, p.kode_menu, p.qty
+
+                            FROM pesanan AS p
+
+                            JOIN transaksi AS tk ON (tk.kode_pesanan = p.kode_pesanan)
+
+                        ");
+        } else {
+
+            if (!isset($_GET["search"])) {
+
+                $menu = ambil_data("SELECT * FROM menu ORDER BY kode_menu DESC");
+            } else {
+
+                $key_search = $_GET["key-search"];
+
+                $menu = ambil_data("SELECT * FROM menu WHERE nama LIKE '%$key_search%' OR
+
+                                                        harga LIKE '%$key_search%' OR
+
+                                                        kategori LIKE '%$key_search%' OR
+
+                                                        `status` LIKE '%$key_search%'
+
+                                                        ORDER BY kode_menu DESC
+
+            ");
+            }
+        }
+
+        ?>
+
+
     </head>
 
     <body id="page-top">
 
         <!-- Page Wrapper -->
         <div id="wrapper">
+
+            <?php
+
+            if (isset($_POST["pesan"])) {
+
+                $pesanan = tambah_data_pesanan();
+
+                echo $pesanan > 0
+
+                    ? "<script>
+
+                            location.href = 'index.php?transaksi'
+
+                        </script>"
+
+                    : "<script>
+
+                                Swal.fire({
+                                    title: 'Gagal Melakukan Pembayaran',
+                                    text: 'Anda belum menginputkan barang!',
+                                    icon: 'error'
+                                });
+
+                        </script>";
+            }
+
+            ?>
 
             <!-- Sidebar -->
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -139,8 +158,8 @@ if (isset($_POST["pesan"])) {
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Data Menu :</h6>
                             <a class="collapse-item" href="index.php?transaksi">Transaksi</a>
-                            <a class="collapse-item" href="#">Data Barang</a>
-                            <a class="collapse-item" href="index.php?transaksi">Data Transaksi</a>
+                            <a class="collapse-item" href="index.php?data-barang">Data Barang</a>
+                            <a class="collapse-item" href="index.php?data-transaksi">Data Transaksi</a>
                         </div>
                     </div>
                 </li>
@@ -173,7 +192,7 @@ if (isset($_POST["pesan"])) {
                         <!-- Topbar Search -->
                         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="index.php" method="GET">
                             <div class="input-group">
-                                <input type="text" autocomplete="off" name="key-search" class="form-control bg-light border-0 small" placeholder="Cari apa ?" aria-label="Search" aria-describedby="basic-addon2">
+                                <input type="text" autocomplete="off" name="key-search" class="form-control bg-light border-0 small" placeholder="Cari barang apa ?" aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" name="search">
                                         <i class="fas fa-search fa-sm"></i>
@@ -258,6 +277,10 @@ if (isset($_POST["pesan"])) {
 
                             else if (isset($_GET["transaksi"])) include "halaman/transaksi.php";
 
+                            elseif (isset($_GET["data-barang"])) include "halaman/data-barang.php";
+
+                            elseif (isset($_GET["data-transaksi"])) include "halaman/data-transaksi.php";
+
                             else include "halaman/beranda.php";
 
                             ?>
@@ -312,6 +335,7 @@ if (isset($_POST["pesan"])) {
         </div>
 
         <!-- Bootstrap core JavaScript-->
+        
         <script src="src/vendor/jquery/jquery.min.js"></script>
         <script src="src/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
