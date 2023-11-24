@@ -173,8 +173,6 @@ function tambah_data_transaksi() {
 
     $uang_kembalian = (int) htmlspecialchars($_POST["uang_kembalian"]);
 
-    $id_menu = ambil_data("SELECT MAX(SUBSTR(kode_menu, 3)) AS kode FROM menu")[0]["kode"] + 1;
-
     mysqli_query($koneksi, "INSERT INTO data_transaksi
 
                             VALUES ('', '$kode_pesanan', '$nama_pelanggan', '$nama_kasir', '$tanggal_transaksi', $total_belanja, $uang_bayar, $uang_kembalian)
@@ -476,6 +474,12 @@ function hapus_data_pesanan()
     // eksekusi query delete
 
     mysqli_query($koneksi, "DELETE FROM transaksi
+
+                            WHERE kode_pesanan = '$kode_pesanan'
+
+    ");
+
+    mysqli_query($koneksi, "DELETE FROM data_transaksi
 
                             WHERE kode_pesanan = '$kode_pesanan'
 

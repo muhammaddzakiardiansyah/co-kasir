@@ -39,7 +39,6 @@ if (isset($_POST["tambah"])) {
         location.href = 'index.php';
 
     </script>";
-
 }
 
 ?>
@@ -172,6 +171,44 @@ if (isset($_POST["tambah"])) {
 
         </form>
 
+    </div>
+
+    <div class="container p-5 rounded-5 bg-info">
+        <form action="">
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label fw-bold">Nama Makanan</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label fw-bold">Harga</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label fw-bold">Gambar</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label fw-bold">Kategori</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label fw-bold">Status</label>
+                <div class="d-flex gap-5">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label fw-bold" for="flexRadioDefault1">
+                            Tersedia
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                        <label class="form-check-label fw-bold" for="flexRadioDefault2">
+                            Tidak Tersedia
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
     <script src="./src/css/bootstrap-5.2.0/js/bootstrap.min.js"></script>
