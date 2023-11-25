@@ -26,7 +26,19 @@ if (!isset($_SESSION["akun-admin"])) {
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Kasir</title>
+        <title>
+            <?php
+            if (isset($_GET["data-barang"])) {
+                echo 'Data Barang';
+            } else if (isset($_GET["data-transaksi"])) {
+                echo 'Data Transaksi';
+            } else if (isset($_GET["transaksi"])) {
+                echo 'Transaksi';
+            } else {
+                echo 'Kasir';
+            }
+            ?>
+        </title>
 
         <!-- Custom fonts for this template-->
         <link href="src/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -36,13 +48,15 @@ if (!isset($_SESSION["akun-admin"])) {
         <link href="src/css/sb-admin-2.min.css" rel="stylesheet">
         <script src="src/dist/sweetalert2.all.min.js"></script>
 
+        <link rel="shortcut icon" href="src/img/emoji-laughing.svg" type="image/x-icon">
+
         <!-- php function -->
         <?php
 
         if (isset($_GET["data-barang"])) {
             $menu = ambil_data("SELECT * FROM menu");
-        } 
-        
+        }
+
         if (isset($_GET["data-transaksi"])) {
             $menu = ambil_data("SELECT * FROM data_transaksi");
         }
@@ -264,8 +278,30 @@ if (!isset($_SESSION["akun-admin"])) {
 
                         <!-- Page Heading -->
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Data Barang</h1>
-                            <a href="tambah.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Tambah Barang</a>
+                            <h1 class="h3 mb-0 text-gray-800">
+                                <?php
+                                if (isset($_GET["data-barang"])) {
+                                    echo 'Data Barang';
+                                } else if (isset($_GET["data-transaksi"])) {
+                                    echo 'Data Transaksi';
+                                } else if (isset($_GET["transaksi"])) {
+                                    echo 'Transaksi';
+                                } else {
+                                    echo 'Kasir';
+                                }
+                                ?>
+                            </h1>
+                            <?php
+                                if (isset($_GET["data-barang"])) {
+                                    echo '<a href="tambah.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Tambah Barang</a>';
+                                } else if (isset($_GET["data-transaksi"])) {
+                                    echo ' ';
+                                } else if (isset($_GET["transaksi"])) {
+                                    echo ' ';
+                                } else {
+                                    echo ' ';
+                                }
+                            ?>
                         </div>
 
                         <!-- main -->
@@ -335,7 +371,7 @@ if (!isset($_SESSION["akun-admin"])) {
         </div>
 
         <!-- Bootstrap core JavaScript-->
-        
+
         <script src="src/vendor/jquery/jquery.min.js"></script>
         <script src="src/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
