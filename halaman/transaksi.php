@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once(__DIR__ . '/../function.php');
 
@@ -8,31 +8,25 @@ if (isset($_POST["tambah_transaksi"])) {
     $tambah = tambah_data_transaksi();
 
     echo $tambah > 0
-
         ? "<script>
-
             Swal.fire({
                 title: 'Transaksi Berhasil!',
                 text: 'Transaksi Berhasil Dilakukan',
                 icon: 'success'
+            }).then(function() {
+                window.location.href = 'index.php';
             });
-
-            setTimeout(() => {
-                location.header = 'index.php'
-            }, 1500)
-
-    </script>"
-
+       </script>"
         : "<script>
-
             Swal.fire({
                 title: 'Transaksi Gagal!',
                 text: 'Gagal',
                 icon: 'error'
             });
+       </script>";
 
-    </script>";
-
+    // Pastikan untuk menghentikan eksekusi setelah mengirimkan skrip JavaScript
+    exit();
 }
 
 ?>
@@ -67,7 +61,7 @@ if (isset($_POST["tambah_transaksi"])) {
                                                         WHERE transaksi.kode_pesanan = '$kode_pesanan'");
                     ?>
                         <form method="POST">
-                            
+
                             <tr>
                                 <td><?= $i ?></td>
                                 <td><input type="text" name="kode_pesanan" value="<?= $m["kode_pesanan"]; ?>" required></td>
@@ -81,7 +75,7 @@ if (isset($_POST["tambah_transaksi"])) {
                                         $total += $tp["qty"] * $tp["harga"];
                                     }
                                     ?>
-                                    <input type="text" name="total_belanja" value="<?= $total; ?>" required>
+                                    <input type="text" name="total_bayar" value="<?= $total; ?>" required>
                                 </td>
                                 <td><input name="uang_bayar" placeholder="angka" min="0" type="number" required></td>
                                 <td><input type="number" min="0" placeholder="angka" name="uang_kembalian" required></td>

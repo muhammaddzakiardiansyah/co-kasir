@@ -88,7 +88,9 @@ if (!isset($_SESSION["akun-admin"])) {
 
                                                         kategori LIKE '%$key_search%' OR
 
-                                                        `status` LIKE '%$key_search%'
+                                                        `status` LIKE '%$key_search%' OR
+
+                                                        kode_menu LIKE '%$key_search%'
 
                                                         ORDER BY kode_menu DESC
 

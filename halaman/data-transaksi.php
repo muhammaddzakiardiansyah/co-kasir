@@ -32,7 +32,6 @@
                         $month = $_POST["month_s"];
                         // Validasi dan konversi tanggal jika diperlukan
                         $validatedMonth = date('Y-m-d', strtotime($month));
-                        var_dump($validatedMonth, 'bulan');
                         // Pastikan $validatedMonth adalah string yang valid, misalnya "YYYY-MM"
                         // Selain itu, lakukan sanitasi nilai untuk menghindari SQL injection
                         $query = "SELECT * FROM data_transaksi

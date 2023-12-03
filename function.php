@@ -157,6 +157,8 @@ function ambil_data($query)
 
 function tambah_data_transaksi() {
 
+    $date = date("Y-m-d");
+
     global $koneksi;
 
     $kode_pesanan = htmlspecialchars($_POST["kode_pesanan"]);
@@ -167,7 +169,7 @@ function tambah_data_transaksi() {
 
     $tanggal_transaksi = htmlspecialchars($_POST["tanggal_transaksi"]);
 
-    $total_belanja = (int) htmlspecialchars($_POST["total_belanja"]);
+    $total_bayar = (int) htmlspecialchars($_POST["total_bayar"]);
 
     $uang_bayar = (int) htmlspecialchars($_POST["uang_bayar"]);
 
@@ -175,7 +177,7 @@ function tambah_data_transaksi() {
 
     mysqli_query($koneksi, "INSERT INTO data_transaksi
 
-                            VALUES ('', '$kode_pesanan', '$nama_pelanggan', '$nama_kasir', '$tanggal_transaksi', $total_belanja, $uang_bayar, $uang_kembalian)
+                            VALUES ('', '$kode_pesanan', '$nama_pelanggan', '$nama_kasir', '$tanggal_transaksi', $total_bayar, $uang_bayar, $uang_kembalian, '$date')
 
     ");
 
