@@ -7,7 +7,7 @@ require_once "function.php";
 if (!isset($_SESSION["akun-admin"])) {
     if (isset($_SESSION["akun-user"])) {
         echo "<script>
-            alert('Tambah data hanya berlaku untuk admin!');
+            alert('Tambah data hanya berlaku untuk admin');
             location.href = 'index.php';
         </script>";
     } else {
