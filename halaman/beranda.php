@@ -22,24 +22,26 @@
 
         foreach ($menu as $m) { ?>
 
-            <div class="col-sm-4 mx-auto m-2">
+            <div class="row mx-auto mb-2">
 
-                <div class="card" style="width: 18rem;">
-
-                    <img src="src/img/<?= $m["gambar"]; ?>" class="card-img-top" alt="<?= $m["gambar"]; ?>">
-
-                    <input type="hidden" name="kode_menu<?= $i; ?>" value="<?= $m["kode_menu"]; ?>">
-
-                    <div class="card-body">
-
-                        <h5 class="card-title"><?= $m["nama"]; ?></h5>
-
-                        <p class="card-text">Harga : <?= $formatter->formatCurrency($m["harga"], 'IDR'); ?></p>
-
-                        <p class="card-text">Jumlah beli / pcs : <input class="form-control" min="0" type="number" name="qty<?= $i; ?>"></p>
-
+                <div class="col-sm-4">
+        
+                    <div class="card" style="width: 14rem;">
+        
+                        <input type="hidden" name="kode_menu<?= $i; ?>" value="<?= $m["kode_menu"]; ?>">
+        
+                        <div class="card-body">
+        
+                            <h5 class="card-title"><?= $m["nama"]; ?></h5>
+        
+                            <p class="card-text">Harga : <?= $formatter->formatCurrency($m["harga"], 'IDR'); ?></p>
+        
+                            <p class="card-text">Jumlah beli / pcs : <input class="form-control" min="0" type="number" name="qty<?= $i; ?>"></p>
+        
+                        </div>
+        
                     </div>
-
+        
                 </div>
 
             </div>

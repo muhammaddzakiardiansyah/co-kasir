@@ -98,6 +98,8 @@ if (!isset($_SESSION["akun-admin"])) {
             }
         }
 
+        $categories = ambil_data("SELECT DISTINCT kategori FROM menu");
+
         ?>
 
 
@@ -139,7 +141,7 @@ if (!isset($_SESSION["akun-admin"])) {
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
                     <div class="sidebar-brand-icon rotate-n-15">
                         <i class="fas fa-laugh-wink"></i>
                     </div>
@@ -208,7 +210,13 @@ if (!isset($_SESSION["akun-admin"])) {
                         <!-- Topbar Search -->
                         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="index.php" method="GET">
                             <div class="input-group">
-                                <input type="text" autocomplete="off" name="key-search" class="form-control bg-light border-0 small" placeholder="Cari barang apa ?" aria-label="Search" aria-describedby="basic-addon2">
+                                <!-- <input type="text" autocomplete="off" name="key-search" class="form-control bg-light border-0 small" placeholder="Cari barang apa ?" aria-label="Search" aria-describedby="basic-addon2"> -->
+                                <input list="menues" name="key-search" class="form-control bg-light border-0 small" id="key-search" placeholder="Cari barang apa ?" aria-label="Search" aria-describedby="basic-addon2">
+                                <datalist id="menues">
+                                    <?php foreach($categories as $category) : ?>
+                                      <option value="<?= $category["kategori"] ?>">
+                                    <?php endforeach; ?>
+                                </datalist>
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" name="search">
                                         <i class="fas fa-search fa-sm"></i>
@@ -254,14 +262,6 @@ if (!isset($_SESSION["akun-admin"])) {
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Profile
                                     </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Settings
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Activity Log
-                                    </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="logout.php" data-toggle="modal" data-target="#logoutModal">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -294,15 +294,15 @@ if (!isset($_SESSION["akun-admin"])) {
                                 ?>
                             </h1>
                             <?php
-                                if (isset($_GET["data-barang"])) {
-                                    echo '<a href="tambah.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Tambah Barang</a>';
-                                } else if (isset($_GET["data-transaksi"])) {
-                                    echo ' ';
-                                } else if (isset($_GET["transaksi"])) {
-                                    echo ' ';
-                                } else {
-                                    echo ' ';
-                                }
+                            if (isset($_GET["data-barang"])) {
+                                echo '<a href="tambah.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Tambah Barang</a>';
+                            } else if (isset($_GET["data-transaksi"])) {
+                                echo ' ';
+                            } else if (isset($_GET["transaksi"])) {
+                                echo ' ';
+                            } else {
+                                echo ' ';
+                            }
                             ?>
                         </div>
 
@@ -336,7 +336,8 @@ if (!isset($_SESSION["akun-admin"])) {
                 <footer class="sticky-footer bg-white">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; Your Website 2021</span>
+                            <span>Copyright &copy; Co Kasir</span>
+                            <span>Codepelita x Codeauthentic</span>
                         </div>
                     </div>
                 </footer>
@@ -358,15 +359,15 @@ if (!isset($_SESSION["akun-admin"])) {
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Yakin ingin keluar ?</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-body">Semua perubahan akan tetap terssimpan.</div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="logout.php">Logout</a>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                        <a class="btn btn-primary" href="logout.php">Ya</a>
                     </div>
                 </div>
             </div>

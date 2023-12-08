@@ -29,6 +29,7 @@ if (isset($_POST["login"])) {
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link rel="stylesheet" href="src/css/bootstrap-icons-1.8.3/bootstrap-icons.css">
+    <link rel="shortcut icon" href="src/img/emoji-laughing.svg" type="image/x-icon">
     <!-- sweet alert -->
     <script src="src/dist/sweetalert2.all.min.js"></script>
 
@@ -86,11 +87,12 @@ if (isset($_POST["login"])) {
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                        <p class="small">Jika ingin membuat akun hubungi developer.</p>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="https://wa.me/62895632506450" target="_blank">Klik untuk hubungi developer</a>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
