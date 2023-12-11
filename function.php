@@ -83,28 +83,10 @@ function login_akun()
 
     "));
 
-    $cek_akun_user = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM `user` 
-
-                                                           WHERE username = '$username' AND 
-
-                                                                `password` = '$password'
-
-    "));
 
 
+    if ($cek_akun_admin == null) return false;
 
-    if ($cek_akun_admin == null && $cek_akun_user == null) return false;
-
-    if ($cek_akun_user != null) {
-
-        $_SESSION["akun-user"] = [
-
-            "username" => $username,
-
-            "password" => $password
-
-        ];
-    }
     if ($cek_akun_admin != null) {
 
         $_SESSION["akun-admin"] = [

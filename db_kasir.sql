@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2022 at 09:42 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.2
+-- Generation Time: Dec 11, 2023 at 01:09 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pwl_kasir_restoran`
+-- Database: `db_kasir`
 --
 
 -- --------------------------------------------------------
@@ -31,14 +31,44 @@ CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`id`, `username`, `password`) VALUES
-(7, 'admin', '21232f297a57a5a743894a0e4a801fc3');
+(7, 'admin', '21232f297a57a5a743894a0e4a801fc3'),
+(9, 'Admin Koperasi 1', '649c7bf4ddd89587b295773bb775319b');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `data_transaksi`
+--
+
+CREATE TABLE `data_transaksi` (
+  `id` int(11) NOT NULL,
+  `kode_pesanan` varchar(200) NOT NULL,
+  `nama_pelanggan` varchar(200) NOT NULL,
+  `nama_kasir` varchar(200) NOT NULL,
+  `tanggal_transaksi` varchar(200) NOT NULL,
+  `total_bayar` int(11) NOT NULL,
+  `uang_bayar` int(11) NOT NULL,
+  `uang_kembalian` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `data_transaksi`
+--
+
+INSERT INTO `data_transaksi` (`id`, `kode_pesanan`, `nama_pelanggan`, `nama_kasir`, `tanggal_transaksi`, `total_bayar`, `uang_bayar`, `uang_kembalian`, `created_at`) VALUES
+(5, '656bed3f9478', 'namir', 'nina', '03 December 2023', 25000, 30000, 5000, '2023-12-02 17:00:00'),
+(7, '656bee700c76', 'namira', 'ida', '03 December 2023', 60000, 70000, 10000, '2023-12-02 17:00:00'),
+(9, '656befe310dc', 'inara', 'ida', '03 December 2023', 4000, 4000, 0, '2023-11-02 17:00:00'),
+(10, '657337875a7f', 'Abim', 'Ida', '08 December 2023', 3000, 4000, 1000, '2023-12-07 17:00:00'),
+(11, '6573397631d7', 'Mya', 'Ida', '08 December 2023', 27000, 30000, 3000, '2023-12-07 17:00:00');
 
 -- --------------------------------------------------------
 
@@ -54,7 +84,7 @@ CREATE TABLE `menu` (
   `gambar` varchar(100) DEFAULT NULL,
   `kategori` varchar(100) DEFAULT NULL,
   `status` enum('tersedia','tidak tersedia') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `menu`
@@ -81,7 +111,6 @@ INSERT INTO `menu` (`id_menu`, `kode_menu`, `nama`, `harga`, `gambar`, `kategori
 (17, 'MN17', 'Roll Sushi Tuna', 30000, 'roll-sushi-tuna.png', 'Fast Food', 'tersedia'),
 (18, 'MN18', 'Mie Setan', 20000, 'mie-setan.png', 'Fast Food', 'tersedia'),
 (19, 'MN19', 'Molen Kacang Hijau', 5000, 'molen-kacang-hijau.png', 'Snack', 'tersedia'),
-(20, 'MN20', 'Kue Cubit', 10000, 'kue-cubit.png', 'Snack', 'tersedia'),
 (21, 'MN21', 'Otak2 Udang Keju', 15000, 'otak-udang-keju.png', 'Snack', 'tersedia'),
 (22, 'MN22', 'Donat Kentang', 15000, 'donat-kentang.png', 'Snack', 'tersedia'),
 (23, 'MN23', 'Siomay Bandung', 30000, 'siomay-bandung.png', 'Snack', 'tersedia'),
@@ -112,7 +141,7 @@ INSERT INTO `menu` (`id_menu`, `kode_menu`, `nama`, `harga`, `gambar`, `kategori
 (48, 'MN48', 'Strawberry Ice Tea', 12000, 'strawberry-iced.png', 'Minuman', 'tersedia'),
 (49, 'MN49', 'Smoothie Mangga', 12000, 'smoothie-mangga.png', 'Minuman', 'tersedia'),
 (50, 'MN50', 'Es Kopyor', 8000, 'es-kopyor.png', 'Minuman', 'tersedia'),
-(52, 'MN52', 'Es Teh Manis', 3000, 'es-teh-manis.png', 'Minuman', 'tersedia');
+(52, 'MN52', 'Es Teh Manis', 3000, 'es-teh-manis.png', '', '');
 
 -- --------------------------------------------------------
 
@@ -125,7 +154,33 @@ CREATE TABLE `pesanan` (
   `kode_pesanan` varchar(12) NOT NULL,
   `kode_menu` varchar(12) NOT NULL,
   `qty` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pesanan`
+--
+
+INSERT INTO `pesanan` (`id_pesanan`, `kode_pesanan`, `kode_menu`, `qty`) VALUES
+(46, '655f74bc259b', 'MN51', 1),
+(47, '655f7ed3f206', 'MN51', 1),
+(48, '655f7f0701d7', 'MN52', 1),
+(49, '655f82536368', 'MN52', 2),
+(50, '655f82536368', 'MN51', 2),
+(51, '655f82536368', 'MN13', 2),
+(53, '6562e32d6484', 'MN52', 1),
+(55, '6562ead75bfe', 'MN21', 1),
+(56, '656be94f9399', 'MN02', 1),
+(57, '656beb2306bb', 'MN52', 1),
+(58, '656bed3f9478', 'MN03', 1),
+(59, '656bed7bc16b', 'MN52', 1),
+(61, '656bee700c76', 'MN25', 1),
+(62, '656bee700c76', 'MN24', 1),
+(63, '656bee700c76', 'MN23', 1),
+(65, '656befe310dc', 'MN51', 1),
+(66, '657337875a7f', 'MN52', 1),
+(67, '6573397631d7', 'MN52', 1),
+(68, '6573397631d7', 'MN51', 1),
+(69, '6573397631d7', 'MN10', 1);
 
 -- --------------------------------------------------------
 
@@ -137,27 +192,29 @@ CREATE TABLE `transaksi` (
   `id_transaksi` int(11) NOT NULL,
   `kode_pesanan` varchar(12) NOT NULL,
   `nama_pelanggan` varchar(50) NOT NULL,
+  `nama_kasir` varchar(200) NOT NULL,
   `waktu` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Table structure for table `user`
+-- Dumping data for table `transaksi`
 --
 
-CREATE TABLE `user` (
-  `id_user` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id_user`, `username`, `password`) VALUES
-(1, 'rendi12', '69c796f5bbd1339f3ba3e18ce54fcc63');
+INSERT INTO `transaksi` (`id_transaksi`, `kode_pesanan`, `nama_pelanggan`, `nama_kasir`, `waktu`) VALUES
+(20, '655f74bc259b', 'mia', '', '2023-11-23 22:50:20'),
+(21, '655f7ed3f206', 'syifa', '', '2023-11-23 23:33:23'),
+(22, '655f7f0701d7', 'kaka', '', '2023-11-23 23:34:15'),
+(23, '655f82536368', 'siska', '', '2023-11-23 23:48:19'),
+(25, '6562e32d6484', 'Namira', 'Ida', '2023-11-26 13:18:21'),
+(27, '6562ead75bfe', 'Andini', 'Ida', '2023-11-26 13:51:03'),
+(28, '656be94f9399', 'namira', 'ida', '2023-12-03 09:34:55'),
+(29, '656beb2306bb', 'c', '1', '2023-12-03 09:42:43'),
+(30, '656bed3f9478', 'namir', 'nina', '2023-12-03 09:51:43'),
+(31, '656bed7bc16b', 'abim', 'ida', '2023-12-03 09:52:43'),
+(33, '656bee700c76', 'namira', 'ida', '2023-12-03 09:56:48'),
+(35, '656befe310dc', 'inara', 'ida', '2023-12-03 10:02:59'),
+(36, '657337875a7f', 'Abim', 'Ida', '2023-12-08 22:34:31'),
+(37, '6573397631d7', 'Mya', 'Ida', '2023-12-08 22:42:46');
 
 --
 -- Indexes for dumped tables
@@ -167,6 +224,12 @@ INSERT INTO `user` (`id_user`, `username`, `password`) VALUES
 -- Indexes for table `admin`
 --
 ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `data_transaksi`
+--
+ALTER TABLE `data_transaksi`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -188,12 +251,6 @@ ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`id_transaksi`);
 
 --
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id_user`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -201,25 +258,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `data_transaksi`
+--
+ALTER TABLE `data_transaksi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `pesanan`
 --
 ALTER TABLE `pesanan`
-  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
