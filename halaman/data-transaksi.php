@@ -107,7 +107,7 @@
                         <div class="row align-items-center mb-2 d-flex">
                             <div class="col-8">
                                 <h4 class="d-flex align-items-center mb-0">
-                                <?= $dataMingguIni[0]["total_value"] ? $formatter->formatCurrency($dataMingguIni[0]["total_value"], 'IDR') : '0' ?>
+                                <?= $dataMingguIni[0]["total_value"] ? $formatter->formatCurrency($dataMingguIni[0]["total_value"], 'IDR') : 'Rp 0,00' ?>
                                 </h4>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                         <div class="row align-items-center mb-2 d-flex">
                             <div class="col-8">
                                 <h4 class="d-flex align-items-center mb-0">
-                                <?= $dataBulanIni[0]["total_value"] ? $formatter->formatCurrency($dataBulanIni[0]["total_value"], 'IDR') : '0' ?>
+                                <?= $dataBulanIni[0]["total_value"] ? $formatter->formatCurrency($dataBulanIni[0]["total_value"], 'IDR') : 'Rp 0,00' ?>
                                 </h4>
                             </div>
                         </div>
